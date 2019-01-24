@@ -1,8 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
-import { Font } from 'expo';
-import * as firebase from 'firebase';
 import db from './firebaseConfig';
 import Ionicons from '@expo/vector-icons/Ionicons';
 
@@ -65,7 +63,6 @@ export default class ScoreScreen extends React.Component {
                 })
             }
         }).catch(function(error) {
-            console.log("Error getting document:", error);
         });
 
 
@@ -74,10 +71,8 @@ export default class ScoreScreen extends React.Component {
             points: this.state.score
         })
             .then(function (docRef) {
-                console.log("Document for roundes written with ID: ", docRef.id);
             })
             .catch(function (error) {
-                console.error("Error adding document: ", error);
             });
     }
 

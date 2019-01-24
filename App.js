@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import { createBottomTabNavigator, createAppContainer, createStackNavigator, createSwitchNavigator, createDrawerNavigator } from 'react-navigation';
+import { StyleSheet, View } from 'react-native';
+import { createBottomTabNavigator, createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 
 import HomeScreen from './HomeScreen';
@@ -10,10 +10,6 @@ import ScoreScreen from './ScoreScreen';
 import ProfileScreen from './ProfileScreen';
 import MainVerify from './MainVerify';
 import HighScoreScreen from './HighScoreScreen';
-import PayScreen from './PayScreen';
-import BeforePayScreen from './BeforePayScreen';
-import PaymentSuccess from './PaymentSuccess';
-import PaymentFailed from './PaymentFailed';
 
 
 import db from './firebaseConfig';
@@ -38,7 +34,6 @@ const HomeStack = createSwitchNavigator(
 
 HomeStack.navigationOptions = ({ navigation }) => {
   let tabBarVisible = true;
-  console.log(navigation.state.index)
   if (navigation.state.index > 0) {
     tabBarVisible = false;
   }
@@ -62,10 +57,6 @@ const ProfileStack = createSwitchNavigator(
       screen: ProfileScreen
 
     },
-    pay: { screen: PayScreen },
-    beforePay: { screen: BeforePayScreen },
-    paymentSuccess: { screen: PaymentSuccess },
-    paymentFailed: { screen: PaymentFailed }
   }
 
 )
@@ -194,7 +185,6 @@ export default class App extends React.Component {
       loggedIn: true
     })
 
-   ///console.log(email)
     this.account()
 
   }
@@ -206,18 +196,9 @@ export default class App extends React.Component {
 
   }
 
-  // Get current user and roundes
+  // Get current user and
   account = async () => {
     const { currentUser } = firebase.auth()
-    let roundesArray = [];
-    /*
-    await db.collection("users").doc(currentUser.uid)
-      .onSnapshot(function (doc) {
-        roundesArray.push(doc.data().roundes);
-        console.log("Current data now changed: ", doc.data());
-      });
-
-      */
 
     this.setState({ currentUser })
 

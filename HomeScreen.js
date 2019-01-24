@@ -1,16 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { LinearGradient } from 'expo';
-import { Font } from 'expo';
 
 
 export default class HomeScreen extends React.Component {
     constructor(props){
         super(props)
-        this.state = {
-        fontLoaded: false,
-    
-    }
     }
 
   
@@ -23,7 +18,6 @@ export default class HomeScreen extends React.Component {
     render() {
       
         const user = this.props.screenProps.currentUser
-  console.log('current user i home', user)
       return (
 
         <LinearGradient 

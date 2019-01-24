@@ -1,10 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableHighlight, FlatList } from 'react-native';
-import * as firebase from 'firebase';
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo';
 
-import LoginScreen from './LoginScreen';
 
 const VerifyEmailScreen = (props) => {
     return (

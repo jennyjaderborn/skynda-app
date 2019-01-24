@@ -5,7 +5,6 @@ import { Ionicons } from '@expo/vector-icons';
 import db from './firebaseConfig';
 import PolicyScreen from './PolicyScreen';
 import { LinearGradient } from 'expo';
-import LoginScreen from './LoginScreen';
 import DeleteScreen from './DeleteScreen';
 import SupportScreen from './SupportScreen';
 
@@ -25,7 +24,6 @@ export default class ProfileScreen extends React.Component {
     this.getRoundes = this.getRoundes.bind(this)
     this.openModalPolicy = this.openModalPolicy.bind(this)
     this.closeModalPolicy = this.closeModalPolicy.bind(this)
-    this.pay = this.pay.bind(this)
     this.closeModalDelete = this.closeModalDelete.bind(this)
     this.openModalDelete = this.openModalDelete.bind(this)
     this.openSupportModal = this.openSupportModal.bind(this)
@@ -47,25 +45,13 @@ export default class ProfileScreen extends React.Component {
   }
 
   getRoundes = async () => {
-    // console.log('GET DATA FUNCTION!')
     const { currentUser } = firebase.auth()
-    /*await db.collection("users").doc(currentUser.uid).collection("roundes")
-    .onSnapshot(function(doc) {
-        console.log("DOC DATA, ROUNDES  ", doc.data());
-    });*/
+    
     let score = [];
     await db.collection("users").doc(currentUser.uid).collection("roundes").get().then(function (querySnapshot) {
       querySnapshot.forEach(function (doc) {
-        // doc.data() is never undefined for query doc snapshots
-        //console.log(doc.id, " => ", doc.data());
         score.push(doc.data())
-        //console.log(score, 'scores')
-      })/*.then(() => {
-
-        console.log('profilsidan har gått igenom render')
-      }).catch((error) => {
-        console.log(error, 'error i profilescreen')
-      });*/
+      })
     });
     this.setState({ scores: score, loading: false })
   }
@@ -77,7 +63,6 @@ export default class ProfileScreen extends React.Component {
       .then(() => {
         this.props.screenProps.loggingOut()
       })
-    console.log('on press logga ut')
   }
 
 
@@ -91,12 +76,6 @@ export default class ProfileScreen extends React.Component {
     this.setState({
       modalVisible: false
     })
-  }
-
-  //Skickas vidare till PayScreen.js
-  pay = () => {
-    this.props.navigation.navigate('beforePay')
-
   }
 
   openModalDelete = () => {
@@ -127,11 +106,9 @@ export default class ProfileScreen extends React.Component {
     var user = firebase.auth().currentUser;
 
     await user.delete().then(() => {
-      console.log('user deleted')
       this.props.screenProps.loggingOut()
     })
   .catch(function(error) {
-      console.log(error)
     });
   }
 
@@ -141,10 +118,6 @@ export default class ProfileScreen extends React.Component {
     let userinfo = this.state.scores
     let arrayOfUser = Object.values(userinfo)
 
-    console.log('array of roundes',arrayOfUser.points)
-
-    console.log('sscore i render', this.state.scores.length)
-    //console.log('Alla poäng i en array::::: ',this.state.scores)
     let user = firebase.auth().currentUser;
     let name;
     if (user != null) {
@@ -217,14 +190,6 @@ export default class ProfileScreen extends React.Component {
               <TouchableHighlight style={styles.button} onPress={this.openModalDelete}>
                 <View style={styles.item}>
                   <Text style={styles.textP}>Ta bort mitt konto</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
-                </View>
-              </TouchableHighlight>
-            </View>
-
-            <View style={styles.items}>
-              <TouchableHighlight style={styles.button} onPress={this.pay}>
-                <View style={styles.item}>
-                  <Text style={styles.textP}>Köp mynt här</Text><Ionicons name="md-arrow-dropright" size={20}></Ionicons>
                 </View>
               </TouchableHighlight>
             </View>

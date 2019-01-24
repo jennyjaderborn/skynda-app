@@ -36,7 +36,7 @@ class LoginScreen extends React.Component {
 
     validateLogin = () => {
 
-        const { email, password, emailError, passwordError, validatedEmail, validatedPassword } = this.state
+        const { email, password } = this.state
         
             firebase.auth().signInWithEmailAndPassword(email, password)
                 .then(() => {
@@ -47,7 +47,6 @@ class LoginScreen extends React.Component {
                     if(email_verified){
                         Keyboard.dismiss()
                     this.props.isLoginRender(email)
-                    console.log('inloggad som:', email)
                     }else{
                         this.setState({
                             needToVerify: true,
@@ -61,7 +60,6 @@ class LoginScreen extends React.Component {
                 })
                 .catch(() => {
                     this.setState({ validatedEmail: false,validatedPassword: false,errors: 'Kunde inte hitta användare', loading: false })
-                    console.log(this.state.errors, 'gick ej att logga in')
                 })
         }
 
@@ -95,7 +93,6 @@ class LoginScreen extends React.Component {
         }
 
         if (password === '') {
-            console.log('fyll i lösen')
             this.setState({
                 passwordError: '* Vänligen fyll i ett lösenord',
                 validatedPassword: false,

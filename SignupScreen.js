@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, Modal, View, Switch, TouchableHighlight, ActivityIndicator, TextInput, KeyboardAvoidingView, StatusBar } from 'react-native';
+import { StyleSheet, Text, Modal, View, Switch, TouchableHighlight, ActivityIndicator, TextInput, KeyboardAvoidingView } from 'react-native';
 import { LinearGradient } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import PolicyScreen from './PolicyScreen';
@@ -55,7 +55,6 @@ class SignupScreen extends React.Component {
             // Email sent.
         }).catch(function (error) {
             // An error happened.
-            console.log(error, 'erroren')
         });
     }
 
@@ -66,10 +65,8 @@ class SignupScreen extends React.Component {
             name: this.state.displayName.toLowerCase()
         })
             .then(function (docRef) {
-                console.log("Document written with displayname in usernames ", docRef);
             })
             .catch(function (error) {
-                console.error("Error adding document to usernames: ", error);
             });
 
         const { email, password, displayName } = this.state
@@ -127,7 +124,6 @@ class SignupScreen extends React.Component {
         }
 
         if (reg.test(email) == false) {
-            console.log('email är inte correct')
             this.setState({
                 emailError: '* Du måste fylla en giltlig email',
                 loading: false,
@@ -145,7 +141,6 @@ class SignupScreen extends React.Component {
         }
 
         if (password.length < 6) {
-            console.log('fyll i lösen')
             this.setState({
                 passwordError: '* Vänligen fyll i ett lösenord',
                 validatedPassword: false,
@@ -183,16 +178,13 @@ class SignupScreen extends React.Component {
 	        querySnapshot.forEach(function(doc) {
 	
 	            if(doc){
-	                console.log('Namnet finns redan!!!')
 	                checkArray.push(doc);
 	
 	            } else {
-	                console.log('namnet är ledigt')
 	            }
 	        });
 	    })
 	    .catch(function(error) {
-	        console.log("Error getting documents: ", error);
 	    });
 	
 	    if(checkArray.length > 0){
@@ -243,7 +235,7 @@ class SignupScreen extends React.Component {
                 <LinearGradient
                     colors={['rgba(235,43,70,1)', 'rgba(0,21,72,1)']}
                     style={{
-                        flex: 1/* justifyContent: 'center', alignItems: 'center'*/
+                        flex: 1
 
                     }}>
 

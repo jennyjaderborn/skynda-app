@@ -15,7 +15,6 @@ export default class PlayScreen extends React.Component {
       allQandA: this.props.screenProps.allDocs,
       text: '', //text from userinput
       words: [],//all words you have written in the inputfield, both right and wrong
-      usedExtraTime: false,
       timer: 50, // timer countdown
       score: 0,
       answers: [], //array with answers(in an array too) that belongs to the selected question.
@@ -32,7 +31,6 @@ export default class PlayScreen extends React.Component {
       this.decrementClock();
     }, 1000);
     this.animate();
-    //this.animateText();
   }
 
   componentWillUnmount() {
@@ -42,11 +40,8 @@ export default class PlayScreen extends React.Component {
   }
 
   animateText() {
-    console.log('animateText körs')
-    console.log('FRÅN ANIMATE!!!!!!!', this.state.words)
     let wordExists = this.state.words.filter(word => word.doAnimate === true);
     if (wordExists.length > 0) {
-      console.log('ORDET i animateText', wordExists)
       this.animateTextAfter()
     }
   }
@@ -61,10 +56,6 @@ export default class PlayScreen extends React.Component {
       }
     ).start();
 
-    /*let words = [...this.state.words];
-            let index = words.findIndex(word => word.word === this.state.text);
-            words[index] = {...words[index], doAnimate: false};
-            this.setState({ words });*/
   }
 
   animate() {
@@ -101,9 +92,7 @@ export default class PlayScreen extends React.Component {
   //when clicking on submit  
   onSave = () => {
     this.textInput.clear()
-    //const answer2 = this.state.questions.filter(obj => obj === `${this.state.questions[randomNumber]}`)
 
-    console.log('vald fråga:', this.state.allQandA[this.state.randomNumber].question);
     let allAnswers = this.state.allQandA.filter(obj => obj.question === this.state.allQandA[this.state.randomNumber].question)[0].answers;
 
     this.correctThis(allAnswers)
@@ -116,14 +105,11 @@ export default class PlayScreen extends React.Component {
 
       let wordExists = this.state.words.filter(word => word.word === this.state.text);
       if (wordExists.length > 0) {
-        console.log('ORDET', wordExists)
 
         let words = [...this.state.words];
         let index = words.findIndex(word => word.word === this.state.text);
         words[index] = { ...words[index], doAnimate: true };
         this.setState({ words }, () => this.animateText());
-        //this.animateText();
-        //alert('ordet finns redan')
       } else {
         this.setState(prevState => ({
           words: [
@@ -139,7 +125,7 @@ export default class PlayScreen extends React.Component {
 
           score: prevState.score + 1
 
-        }), () => console.log('textfinns', this.state.words))
+        }))
       }
     } else {
       this.setState(prevState => ({
@@ -155,22 +141,10 @@ export default class PlayScreen extends React.Component {
           }
         ]
 
-      }), () => console.log('textfinss ej', this.state.words))
+      }))
     }
-
-
-
   }
 
-  onGetSeconds = () => {
-    this.setState(prevState => ({
-      timer: prevState.timer + 10,
-      usedExtraTime: true,
-      progress: prevState.progress += 0.2564104
-    }))
-
-    //alert('vill ha mer tid');
-  }
 
   render() {
     const textSize = this.animatedValue.interpolate({
@@ -178,8 +152,6 @@ export default class PlayScreen extends React.Component {
       outputRange: [18, 32, 18]
     })
 
-    //let randomNumber = Math.floor(Math.random() * Math.floor(this.state.questions2.length));
-    //console.log('Alla frågor:', this.props.screenProps.allDocs)
     let progressColor;
     if (this.state.progress < 0.25) {
       progressColor = '#c92020';
@@ -235,11 +207,11 @@ export default class PlayScreen extends React.Component {
                       }} >
                       {obj.word}
                     </Animated.Text> :
-                    <Text style={{ fontSize: 18, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
+                    <Text style={{ fontSize: 20, color: obj.color, textDecorationLine: obj.dec }}>{obj.word}</Text>
 
                   }
-                  {obj.star ? <Ionicons name="md-star-outline" color={'#f4df42'} size={21} />
-                    : <Text style={{ marginRight: 2 }}><Ionicons name="md-close" color={'#bdc6cc'} size={20} /></Text>
+                  {obj.star ? <Ionicons name="md-star-outline" color={'#f4df42'} size={23} />
+                    : <Text style={{ marginRight: 2 }}><Ionicons name="md-close" color={'#bdc6cc'} size={22} /></Text>
                   }
                 </View>
               )}
@@ -277,31 +249,6 @@ export default class PlayScreen extends React.Component {
             </TouchableHighlight>
           </LinearGradient>
         </View>
-
-        {/*<Text style={styles.text}>{this.state.score}</Text>*/}
-
-        {!this.state.usedExtraTime ?
-
-          <LinearGradient
-            colors={['#fff796', '#fff34f']}
-            style={{
-              width: '94%',
-              marginLeft: '3%',
-              marginRight: '3%',
-              height: 48,
-              borderRadius: 5,
-              justifyContent: "center",
-              alignItems: 'center',
-              margin: 2
-            }
-            } >
-            <TouchableHighlight
-              style={styles.button}
-              onPress={this.onGetSeconds}>
-              <Text style={styles.buttonText}>10 sekunder extra tid!</Text>
-            </TouchableHighlight>
-          </LinearGradient>
-          : null}
 
 
       </KeyboardAvoidingView>
