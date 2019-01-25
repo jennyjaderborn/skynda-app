@@ -23,7 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.wordgame.skynda",
       "publishBundlePath": "ios/skynda-app/Supporting/shell-app.bundle",
       "publishManifestPath": "ios/skynda-app/Supporting/shell-app-manifest.json"
